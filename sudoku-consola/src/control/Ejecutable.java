@@ -1,22 +1,34 @@
 package control;
 
-import java.awt.peer.ContainerPeer;
 import java.util.ArrayList;
-
 import modelo.Celda;
 
 public class Ejecutable {
 
 	public static Object[][] sudoku;
 
+	/**
+	 * Dentro de este método se inicia con un Sudoku (Matriz de celdas) que se
+	 * llenará con los numeros inciales, con la siguiente estructura: Celda:
+	 * número definitivo, posición por fila, posición por columna, cuadrante.
+	 * Por otro lado, aquellas que queden en blanco, se optó por representarlas
+	 * con el número -1 y además se les ingresará una lista de números posibles,
+	 * que constan del 1 al 9.
+	 * 
+	 * Posteriormente, llamará a los métodos encargados de resolver el sudoku ,
+	 * cuantas veces sea necesario para obtener un sudoku completo y correcto,
+	 * en lo posible y con ciertas limitación
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		// Se crea y se llena el sudoku ejemplo:
 		// unSudokuTerminado();
+		// Requiere de 27 números
 
 		sudoku = new Object[9][9];
-
 		sudoku[0][1] = (Object) new Celda(7, 0, 1, 1);
 		sudoku[0][5] = (Object) new Celda(8, 0, 5, 2);
 		sudoku[0][7] = (Object) new Celda(9, 0, 7, 3);
@@ -49,18 +61,10 @@ public class Ejecutable {
 		sudoku[7][3] = (Object) new Celda(2, 7, 3, 8);
 		sudoku[7][4] = (Object) new Celda(7, 7, 4, 8);
 
-		// AGREGUE PARA VER QUE TAL
-		// sudoku[2][7] = (Object) new Celda(8, 2, 7, 3);
-		// sudoku[3][6] = (Object) new Celda(8, 3, 6, 6);
-		//
-		// sudoku[3][1] = (Object) new Celda(9, 3, 1, 4);
-		// sudoku[3][0] = (Object) new Celda(3, 3, 0, 4);
-		//
-		// sudoku[4][8] = (Object) new Celda(5, 4, 8, 6);
-		// sudoku[5][8] = (Object) new Celda(9, 5, 8, 6);
-		//
-		// sudoku[8][3] = (Object) new Celda(1, 8, 3, 8);
-		// sudoku[8][4] = (Object) new Celda(8, 8, 4, 8);
+		// Adicionales:
+		sudoku[5][8] = (Object) new Celda(9, 5, 8, 6);
+		sudoku[8][3] = (Object) new Celda(1, 8, 3, 8);
+		sudoku[8][4] = (Object) new Celda(8, 8, 4, 8);
 
 		// Se crean los objetos Celda restantes en la matriz
 		for (int fila = 0; fila < 9; fila++) {
@@ -122,14 +126,19 @@ public class Ejecutable {
 				buscarUnico(i);
 			}
 			contador++;
-			System.out.println("Sale una Matrix " + contador);
-			imprimirMatriz();
-			System.out.println(contador);
-			ver = verificarSudoku();
-			System.out.println(ver);
-		} while (contador < 8);
 
-		// imprimirPosiblesUnicos();
+			ver = verificarSudoku();
+
+		} while (ver == false);
+		System.out.println("\n"
+				+ "-**********- Resultado despues del algoritmo -**********-");
+		if (ver == true) {
+			imprimirMatriz();
+			System.out.println("Sudoku Correcto");
+		} else {
+			System.out.println("Sudoko Incorrecto");
+		}
+
 	}
 
 	public static void imprimirMatriz() {
@@ -167,13 +176,38 @@ public class Ejecutable {
 		}
 	}
 
+	public static void imprimirPosiblesUnicos() {
+		int numero = 0;
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (((Celda) (sudoku[i][j])).getDefinitivo() == -1) {
+					Celda x = (Celda) (sudoku[i][j]);
+					if ((x.getPosibles().size()) == 1) {
+						System.out.println(x.posicion());
+						numero++;
+					}
+				}
+			}
+		}
+
+		System.out.println("Numero de celdas con una unica opcion : " + numero);
+	}
+
+	/**
+	 * Se encarga de recorrer la matriz por filas y columnas. Durante este
+	 * proceso, se va ir obteniendo cada una de las celdas y se verifica si la
+	 * celda no tiene un número definitivo asignado, para enviarla a un
+	 * procesamiento realizado por los métodos analizadorVector(Celda, boolean)
+	 * y analizadorCuadrante(Celda).
+	 */
 	public static void eliminarImposibles() {
 		for (int fila = 0; fila < 9; fila++) {
 			for (int columna = 0; columna < 9; columna++) {
-				// System.out.println("Cambio celdas");
+
 				Celda unaCelda = (Celda) (sudoku[fila][columna]);
 				if (unaCelda.getDefinitivo() == -1) {
-					// System.out.println("Analizar " + unaCelda.posicion());
+
 					// Analizar fila
 					analizadorVector(unaCelda, true);
 					// Analizar columna
@@ -181,67 +215,19 @@ public class Ejecutable {
 					// Analizar cuadrante
 					analizarCuadrante(unaCelda);
 
-				}else{
-					
-						 borrarPosibilidades(unaCelda);
-						 analizarCuadrante(unaCelda);
-						 }
-						 
-				
-				 
+				}
+
 			}
 		}
 	}
 
-	public static void borrarPosibilidades(Celda laCelda) {
-		int fila = laCelda.getFila();
-		int columna = laCelda.getColunma();
-		Integer numero = laCelda.getDefinitivo();
-		// lista test para contener la lista de posibles de una Celda con -1
-		ArrayList<Integer> depurafc = new ArrayList<Integer>();
-
-		for (int i = 0; i < 9; i++) {
-			// fcCelda es una Celda del sudoku que se esta recorriendo
-			Celda fcCelda = (Celda) (sudoku[fila][i]);
-			if (fcCelda.getDefinitivo() == -1) {
-				depurafc = fcCelda.getPosibles();
-				for (int c = 0; c < depurafc.size(); c++) {
-					if (depurafc.get(c) == numero) {
-						depurafc.remove(c);
-						fcCelda.setPosibles(depurafc);
-						sudoku[fila][i] = fcCelda;
-						System.out
-								.println("***********************************************************FILA");
-
-					}
-				}
-
-				// fcCelda.imprimirPosibles();
-
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			Celda fcCelda = (Celda) (sudoku[i][columna]);
-			if (fcCelda.getDefinitivo() == -1) {
-				depurafc = fcCelda.getPosibles();
-				for (int c = 0; c < depurafc.size(); c++) {
-					if (depurafc.get(c) == numero) {
-						depurafc.remove(c);
-						fcCelda.setPosibles(depurafc);
-						sudoku[i][columna] = fcCelda;
-						System.out
-								.println("***********************************************************Columna");
-					}
-				}
-
-				// fcCelda.imprimirPosibles();
-			}
-		}
-		//
-
-	}
-
+	/**
+	 * Este método retorna una lista de Celdas que pertenecen al mismo cuadrante
+	 * que la celda dada por parametro.
+	 * 
+	 * @param unaCelda
+	 * @return
+	 */
 	public static ArrayList<Celda> determinarCuadrante(Celda unaCelda) {
 		ArrayList<Celda> cuadro33 = new ArrayList<Celda>();
 		for (int a = 0; a < 9; a++) {
@@ -256,6 +242,16 @@ public class Ejecutable {
 		return cuadro33;
 	}
 
+	/**
+	 * Este método se encarga de analizar el estado de cada uno de los
+	 * componentes del cuadrante, con el objetivo de ir eliminando posibilidades
+	 * de la lista que contienen las celdas vacías o en caso de presentar un
+	 * estado ideal de la lista (la lista contiene un solo elemento), poder
+	 * determinar la posibilidad de agregar un número al sudoku y establecerlo
+	 * como definitivo, cumpliendo con las condiciones del juego.
+	 * 
+	 * @param unaCelda
+	 */
 	public static void analizarCuadrante(Celda unaCelda) {
 		ArrayList<Celda> cuadrante33 = determinarCuadrante(unaCelda);
 		ArrayList<Integer> posiblesUnaCelda = unaCelda.getPosibles();
@@ -272,8 +268,6 @@ public class Ejecutable {
 						sudoku[unaCelda.getFila()][unaCelda.getColunma()] = unaCelda;
 
 						if (posiblesUnaCelda.size() == 1) {
-							System.out.println("Definitivo "
-									+ unaCelda.getPosibles().get(0));
 							unaCelda.setDefinitivo(unaCelda.getPosibles()
 									.get(0));
 							ArrayList<Integer> vacia = unaCelda.getPosibles();
@@ -287,12 +281,15 @@ public class Ejecutable {
 					}
 				}
 			}
-			//
 
 		}
 
 	}
 
+	/**
+	 * 
+	 * @param numeroCuadrante
+	 */
 	public static void buscarUnico(int numeroCuadrante) {
 		ArrayList<ArrayList<Celda>> contenedorOpciones = new ArrayList<ArrayList<Celda>>();
 		contenedorOpciones.add(0, null);
@@ -306,19 +303,9 @@ public class Ejecutable {
 		contenedorOpciones.add(8, null);
 		contenedorOpciones.add(9, null);
 
-		boolean imprimir = false;
-
-		if (numeroCuadrante == 6) {
-			imprimirPosibles();
-			imprimir = true;
-		}
-
 		Celda unacelda = new Celda();
 		unacelda.setCuadrante(numeroCuadrante);
 		ArrayList<Celda> cuadrante33 = determinarCuadrante(unacelda);
-
-		// System.out.println("******Cuadrante: " +numeroCuadrante +", datos: "+
-		// cuadrante33.size() +"*****");
 
 		for (int i = 0; i < cuadrante33.size(); i++) {
 			Celda x = cuadrante33.get(i);
@@ -331,10 +318,6 @@ public class Ejecutable {
 					x.setDefinitivo(opcionesX.get(0));
 					x.setPosibles(new ArrayList<Integer>());
 					sudoku[x.getFila()][x.getColunma()] = x;
-					System.out
-							.println("***IngresarÃ¡ unico definido: "
-									+ opcionesX.get(0) + " en la celda "
-									+ x.posicion());
 
 					// elimino el numero agregado de la fila, columna y el
 					// cuadrante dados.
@@ -344,9 +327,6 @@ public class Ejecutable {
 				} else {
 					for (int j = 0; j < opcionesX.size(); j++) {
 						int numeroOpcion = opcionesX.get(j);
-						/*
-						 * if(numeroCuadrante == 4) { imprimir = true; }
-						 */
 
 						if (contenedorOpciones.get(numeroOpcion) == null) {
 							ArrayList<Celda> listado = new ArrayList<Celda>();
@@ -364,18 +344,6 @@ public class Ejecutable {
 			}
 		}
 
-		if (imprimir) {
-			for (int i = 0; i < contenedorOpciones.size(); i++) {
-				ArrayList<Celda> lista = contenedorOpciones.get(i);
-				if (lista != null) {
-					System.out.println("Opciones en la lista " + i);
-					for (int j = 0; j < lista.size(); j++) {
-						System.out.println(lista.get(j).posicion());
-					}
-				}
-			}
-		}
-
 		for (int a = 1; a < contenedorOpciones.size(); a++) {
 
 			if (contenedorOpciones.get(a) != null) {
@@ -384,15 +352,6 @@ public class Ejecutable {
 				if (listaCeldas.get(0) != null && listaCeldas.size() == 1) {
 
 					Celda definitiva = listaCeldas.get(0);
-					/*
-					 * definitiva.setDefinitivo(a); ArrayList<Integer> vacia =
-					 * definitiva.getPosibles(); vacia.clear();
-					 * definitiva.setPosibles(vacia);
-					 * System.out.println("***IngresarÃ¡ unico calculado: " + a +
-					 * " en la celda " + definitiva.posicion());
-					 * sudoku[definitiva.getFila()][definitiva.getColunma()] =
-					 * definitiva;
-					 */
 
 					Celda pifia = new Celda();
 					pifia.setFila(definitiva.getFila());
@@ -400,25 +359,19 @@ public class Ejecutable {
 					pifia.setDefinitivo(a);
 					pifia.setCuadrante(definitiva.getCuadrante());
 
-//					boolean t = verificarFila(pifia);
-//
-//					boolean y = verificarColumna(pifia);
-					//boolean z=validarCuadrante(pifia);
-					boolean y=true;
-					boolean t=true;
+					boolean t = verificarFila(pifia);
 
-					if (y && t ) {
+					boolean y = verificarColumna(pifia);
+
+					if (y && t) {
 						definitiva.setDefinitivo(a);
 						ArrayList<Integer> vacia = definitiva.getPosibles();
 						vacia.clear();
 						definitiva.setPosibles(vacia);
-						System.out.println("***IngresarÃ¡ unico calculado: " + a
-								+ " en la celda " + definitiva.posicion());
 						sudoku[definitiva.getFila()][definitiva.getColunma()] = definitiva;
 					} else {
 						definitiva.setDefinitivo(-1);
-						System.out.println("No lo puso ---- "
-								+ pifia.posicion());
+
 					}
 
 				}
@@ -427,6 +380,12 @@ public class Ejecutable {
 
 	}
 
+	/**
+	 * Este método se encarga de verificar si un sudoku esta correcto o
+	 * incorrecto
+	 * 
+	 * @return
+	 */
 	public static boolean verificarSudoku() {
 		int buenos[] = new int[9];
 		buenos[0] = 1;
@@ -472,7 +431,7 @@ public class Ejecutable {
 						contador++;
 
 					} else {
-						System.out.println("esta malo");
+
 						columna = 10;
 						fila = 10;
 						return false;
@@ -489,7 +448,7 @@ public class Ejecutable {
 		}
 
 		if (contador == 81) {
-			System.out.println("SAQUELA ");
+
 			return true;
 		} else {
 			return false;
@@ -497,7 +456,10 @@ public class Ejecutable {
 
 	}
 
-	private static void unSudokuTerminado() {
+	/**
+	 * Este metodo contiene un sudoku terminado por completo.
+	 */
+	public static void unSudokuTerminado() {
 		sudoku = new Object[9][9];
 
 		sudoku[0][0] = (Object) new Celda(7, 0, 0, 1);
@@ -589,19 +551,28 @@ public class Ejecutable {
 		sudoku[8][6] = (Object) new Celda(1, 8, 6, 9);
 		sudoku[8][7] = (Object) new Celda(6, 8, 7, 9);
 		sudoku[8][8] = (Object) new Celda(2, 8, 8, 9);
-		imprimirMatriz();
-		verificarSudoku();
 
 	}
 
+	/**
+	 * Este método realiza un proceso por fila y por columna dependiendo del
+	 * valor de la variable booleana. Por consiguiente en caso de ser true,
+	 * procede con las filas, sino con las columnas. El proceso que se lleva a
+	 * cabo consiste en ir eliminando la cantidad de números posibles que tienen
+	 * las celdas vacías. Para llevar a cabo la eliminación, se buscan los
+	 * números establecidos como definitivos dentro del sudoku, por fila o por
+	 * columna (mutuamente excluyentes), y por consiguiente son estos los que
+	 * definen que números se borran.
+	 * 
+	 * @param unaCelda
+	 * @param factor
+	 */
 	public static void analizadorVector(Celda unaCelda, boolean factor) {
 		// Si factor es true, se analiza filas, si es false, se analiza columnas
 		if (factor) {
 			// Analiza fila
-			// System.out.println("Eliminar fila");
 			int fila = unaCelda.getFila();
 			ArrayList<Integer> posiblesActuales = unaCelda.getPosibles();
-			// System.out.println("Total actuales: " + posiblesActuales.size());
 			for (int i = 0; i < 9; i++) {
 				Celda revisada = (Celda) (sudoku[fila][i]);
 				if ((revisada.getDefinitivo() != -1)) {
@@ -614,17 +585,6 @@ public class Ejecutable {
 							posiblesActuales.remove(j);
 							unaCelda.setPosibles(posiblesActuales);
 
-							/*
-							 * if(posiblesActuales.size()==1) { //
-							 * System.out.println
-							 * ("Definitivo "+unaCelda.getPosibles().get(0)+
-							 * "- "+unaCelda.posicion());
-							 * unaCelda.setDefinitivo(
-							 * unaCelda.getPosibles().get(0));
-							 * unaCelda.setPosibles(new ArrayList<Integer>()); }
-							 * else { unaCelda.setPosibles(posiblesActuales); }
-							 */
-
 						}
 					}
 				}
@@ -633,13 +593,11 @@ public class Ejecutable {
 		} else {
 			// Analiza columna
 			int columna = unaCelda.getColunma();
-			// System.out.println("Eliminar columna");
+
 			ArrayList<Integer> posiblesActuales = unaCelda.getPosibles();
-			// System.out.println("Total actuales: " + posiblesActuales.size());
+
 			for (int i = 0; i < 9; i++) {
 				Celda revisada = (Celda) (sudoku[i][columna]);
-				// && (revisada.getFila() != unaCelda.getFila() &&
-				// revisada.getColunma() != unaCelda.getColunma())
 				if ((revisada.getDefinitivo() != -1)) {
 					int eliminar = revisada.getDefinitivo();
 					// Eliminar de posibles de unaCelda el valor de eliminar.
@@ -648,16 +606,6 @@ public class Ejecutable {
 
 							posiblesActuales.remove(j);
 							unaCelda.setPosibles(posiblesActuales);
-							/*
-							 * if(posiblesActuales.size()==1) { //
-							 * System.out.println
-							 * ("Definitivo "+unaCelda.getPosibles().get(0)+
-							 * "- "+unaCelda.posicion());
-							 * unaCelda.setDefinitivo(
-							 * unaCelda.getPosibles().get(0));
-							 * unaCelda.setPosibles(new ArrayList<Integer>()); }
-							 * else { unaCelda.setPosibles(posiblesActuales); }
-							 */
 
 						}
 					}
@@ -666,26 +614,14 @@ public class Ejecutable {
 		}
 	}
 
-	public static void imprimirPosiblesUnicos() {
-		int numero = 0;
+	/**
+	 * Este método se encarga de obtener una fila completa del sudoku, a partir
+	 * del entero que recibe como parámetro, que corresponde a la fila requerida
+	 * 
+	 * @param fila
+	 * @return
+	 */
 
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				if (((Celda) (sudoku[i][j])).getDefinitivo() == -1) {
-					Celda x = (Celda) (sudoku[i][j]);
-					if ((x.getPosibles().size()) == 1) {
-						System.out.println(x.posicion());
-						numero++;
-					}
-				}
-			}
-		}
-
-		System.out.println("Numero de celdas con una unica opcion : " + numero);
-	}
-
-	// *************************************************************************************************************
-	// Para validar filas y columnas
 	public static ArrayList<Celda> obtenerFila(int fila) {
 		ArrayList<Celda> filasCeldas = new ArrayList<Celda>();
 		for (int c = 0; c < 9; c++) {
@@ -697,6 +633,14 @@ public class Ejecutable {
 
 	}
 
+	/**
+	 * Este método se encarga de prever algún posible error al ingresar un nuevo
+	 * definitivo, ya que analiza por toda fila, que dicho definitivo no se
+	 * encuentre.
+	 * 
+	 * @param pronosticada
+	 * @return
+	 */
 	public static boolean verificarFila(Celda pronosticada) {
 		ArrayList<Celda> filaDeCeldapronosticada = obtenerFila(pronosticada
 				.getFila());
@@ -708,9 +652,7 @@ public class Ejecutable {
 
 			if (celdaJuez.getColunma() != pronosticada.getColunma()) {
 				if ((celdaJuez.getDefinitivo() == numeroPronosticado)) {
-					System.out.println("no puede ir!! ---"
-							+ celdaJuez.getDefinitivo() + "POR PONER"
-							+ pronosticada.getDefinitivo());
+
 					return valido;
 				}
 
@@ -722,6 +664,14 @@ public class Ejecutable {
 
 	}
 
+	/**
+	 * Este método se encarga de obtener una columna completa del sudoku, a
+	 * partir del entero que recibe como parámetro, que corresponde a la columna
+	 * requerida
+	 * 
+	 * @param columna
+	 * @return
+	 */
 	public static ArrayList<Celda> obtenerColumna(int columna) {
 		ArrayList<Celda> columnasCeldas = new ArrayList<Celda>();
 		for (int f = 0; f < 9; f++) {
@@ -732,6 +682,14 @@ public class Ejecutable {
 		return columnasCeldas;
 	}
 
+	/**
+	 * Este método se encarga de prever algún posible error al ingresar un nuevo
+	 * definitivo, ya que analiza por toda columna, que dicho definitivo no se
+	 * encuentre.
+	 * 
+	 * @param pronosticada
+	 * @return
+	 */
 	public static boolean verificarColumna(Celda pronosticada) {
 		ArrayList<Celda> columnaDeCeldapronosticada = obtenerColumna(pronosticada
 				.getFila());
@@ -746,9 +704,7 @@ public class Ejecutable {
 					return valido;
 
 				}
-				System.out.println("FUERA DEL IF!! ---"
-						+ celdaJuez.getDefinitivo() + "POR PONER"
-						+ pronosticada.getDefinitivo());
+
 			}
 		}
 		valido = true;
@@ -756,26 +712,55 @@ public class Ejecutable {
 
 	}
 
-	// Para validar filas y columnas
-	// *************************************************************************************************************
+	/**
+	 * Este método se encarga de eliminar posibilidades de las listas que
+	 * contienen las celdas vacías. Este proceso lo realiza en toda la fila y
+	 * columna que pertenezcan a la Celda dada por parámetro, que representa la
+	 * oportunidad de establecer un número definitivo dentro del sudoku
+	 * 
+	 * @param laCelda
+	 */
+	public static void borrarPosibilidades(Celda laCelda) {
+		int fila = laCelda.getFila();
+		int columna = laCelda.getColunma();
+		Integer numero = laCelda.getDefinitivo();
+		// lista test para contener la lista de posibles de una Celda con -1
+		ArrayList<Integer> depurafc = new ArrayList<Integer>();
 
-	public static boolean validarCuadrante(Celda pronosticada) {
-		boolean valido = false;
-		ArrayList<Celda> cuadrante33 = determinarCuadrante(pronosticada);
-		int numeroPronosticado = pronosticada.getDefinitivo();
 		for (int i = 0; i < 9; i++) {
-			Celda cuadranteCelda = cuadrante33.get(i);
-			if ((cuadranteCelda.getFila() != pronosticada.getFila())
-					&& (cuadranteCelda.getColunma() != pronosticada
-							.getColunma())) {
-				if ((cuadranteCelda.getDefinitivo() == numeroPronosticado)) {
-					valido = true;
-					return valido;
-				}
-			}
+			// fcCelda es una Celda del sudoku que se esta recorriendo
+			Celda fcCelda = (Celda) (sudoku[fila][i]);
+			if (fcCelda.getDefinitivo() == -1) {
+				depurafc = fcCelda.getPosibles();
+				for (int c = 0; c < depurafc.size(); c++) {
+					if (depurafc.get(c) == numero) {
+						depurafc.remove(c);
+						fcCelda.setPosibles(depurafc);
+						sudoku[fila][i] = fcCelda;
 
+					}
+				}
+
+			}
 		}
-		return valido;
+
+		for (int i = 0; i < 9; i++) {
+			Celda fcCelda = (Celda) (sudoku[i][columna]);
+			if (fcCelda.getDefinitivo() == -1) {
+				depurafc = fcCelda.getPosibles();
+				for (int c = 0; c < depurafc.size(); c++) {
+					if (depurafc.get(c) == numero) {
+						depurafc.remove(c);
+						fcCelda.setPosibles(depurafc);
+						sudoku[i][columna] = fcCelda;
+
+					}
+				}
+
+			}
+		}
+		//
 
 	}
+
 }

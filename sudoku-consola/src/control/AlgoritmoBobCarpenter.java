@@ -4,48 +4,22 @@ import java.util.ArrayList;
 
 import modelo.Celda;
 
-public class intentos {
-	public static int[][] matrix;
+/**
+ * Algoritmo de Bob Carpenter Natural Language Scientist & Software Architect
+ * Alias I, Inc.
+ */
+public class AlgoritmoBobCarpenter {
+	public static int[][] matriz;
 
 	public static void main(String[] args) {
 
-		matrix = new int[9][9];
-
-		matrix[0][1] = 7;
-		matrix[0][5] = 8;
-		matrix[0][7] = 9;
-
-		matrix[1][1] = 8;
-		matrix[1][3] = 9;
-
-		matrix[2][5] = 1;
-		matrix[2][6] = 2;
-		matrix[2][8] = 6;
-
-		matrix[3][2] = 6;
-		matrix[3][8] = 7;
-
-		matrix[4][3] = 3;
-		matrix[4][5] = 9;
-		matrix[4][6] = 6;
-
-		matrix[5][2] = 4;
-		matrix[5][4] = 6;
-		matrix[5][6] = 3;
-
-		matrix[6][1] = 2;
-		matrix[6][2] = 1;
-		matrix[6][7] = 5;
-		matrix[6][8] = 8;
-
-		matrix[7][1] = 3;
-		matrix[7][2] = 5;
-		matrix[7][3] = 2;
-		matrix[7][4] = 7;
-
-		writeMatrix(matrix);
-		if (solve(0, 0, matrix)) // solves in place
-			writeMatrix(matrix);
+		matriz = new int[9][9];
+		//Se ingresan los numero del sudoku por resolver
+		matriz [0][0]=1;
+		
+		writeMatrix(matriz);
+		if (solve(0, 0, matriz)) // solves in place
+			writeMatrix(matriz);
 		else
 			System.out.println("NONE");
 	}
@@ -77,7 +51,7 @@ public class intentos {
 				return true;
 			}
 		}
-		//System.out.println("Fila : " + i + "----Columna" + j);
+		// System.out.println("Fila : " + i + "----Columna" + j);
 		if (cells[i][j] != 0) { // skip filled cells
 			return solve(i + 1, j, cells);
 		}
@@ -94,7 +68,7 @@ public class intentos {
 	}
 
 	public static boolean legal(int i, int j, int val, int[][] cells) {
-		//System.out.println("Valor por agregar " + val);
+		// System.out.println("Valor por agregar " + val);
 		for (int k = 0; k < 9; ++k)
 			// row
 			if (val == cells[k][j])
