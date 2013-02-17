@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303030" >
+
+    <Button
+        android:id="@+id/boton_resolver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="90dp"
+        android:background="#0099FF"
+        android:text="@string/label_boton_menu_1"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/boton_comprobar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/boton_resolver"
+        android:layout_alignRight="@+id/boton_resolver"
+        android:layout_below="@+id/boton_resolver"
+        android:layout_marginTop="23dp"
+        android:background="#0099FF"
+        android:text="@string/label_boton_menu_2"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/boton_desafio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/boton_comprobar"
+        android:layout_alignRight="@+id/boton_comprobar"
+        android:layout_below="@+id/boton_comprobar"
+        android:layout_marginTop="29dp"
+        android:background="#0099FF"
+        android:text="@string/label_boton_menu_3"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/boton_configuracion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/boton_desafio"
+        android:layout_alignRight="@+id/boton_desafio"
+        android:layout_below="@+id/boton_desafio"
+        android:layout_marginTop="35dp"
+        android:background="#0099FF"
+        android:text="@string/label_boton_menu_4"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/boton_resolver"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/boton_resolver"
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/Gris_Titulo"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/acerca_de"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boton_configuracion"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/ic_action_search" />
+
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sudoku Wizard</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="label_boton_menu_1">Resolver Sudoku</string>
+    <string name="label_boton_menu_2">Comprobar Sudoku</string>
+    <string name="label_boton_menu_3">Aceptar desafío Sudoku</string>
+    <string name="label_boton_menu_4">Configuración</string>
+    <string name="title_activity_actividad_resolver">Sudoku Wizard</string>
+    <string name="title_activity_actividad_comprobar">Sudoku Wizard</string>
+    <string name="title_activity_actividad_desafio">Sudoku Wizard</string>
+    <string name="title_activity_actividad_configuracion">Sudoku Wizard</string>
+    <string name="resolver">Resolver</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="verificar">Verificar</string>
+    <string name="title_activity_actividad_acerca">ActividadAcerca</string>
+    <string name="enunciado_acerca">Configuraciones del juego:</string>
+    <string name="facebook">Facebook:</string>
+    <string name="pass">Contraseña:</string>
+    <string name="boton_guardar_configuracion">Guardar</string>
+    <string name="Acerca">Persius officiis eloquentiam ut sed,ius nostrud sensibus ea. Eu ullum inani posidonium quo,zzril quaestio intellegat in quo.
+
+
+Persius officiis eloquentiam ut sed,ius nostrud sensibus ea. Eu ullum inani posidonium quo,zzril quaestio intellegat in quo.
+
+Versión 1.X
+Santiago de Cali - Universidad Icesi</string>
+
+</resources>
