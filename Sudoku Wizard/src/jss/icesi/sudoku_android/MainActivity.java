@@ -2,6 +2,7 @@ package jss.icesi.sudoku_android;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -16,6 +17,8 @@ public class MainActivity extends Activity {
 	public Button boton_desafio;
 	public Button configuracion;
 	public ImageView acerca;
+	
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class MainActivity extends Activity {
 		boton_desafio = (Button) findViewById(R.id.boton_desafio);
 		configuracion = (Button) findViewById(R.id.boton_configuracion);
 		acerca = (ImageView) findViewById(R.id.acerca_de);
+;
+		
 	}
 
 	@Override

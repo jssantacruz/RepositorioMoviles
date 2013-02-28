@@ -19,11 +19,21 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int acerca_de=0x7f08006c;
-        public static final int boton_comprobar=0x7f080069;
-        public static final int boton_configuracion=0x7f08006b;
-        public static final int boton_desafio=0x7f08006a;
-        public static final int boton_resolver=0x7f080068;
+        public static final int Total=0x7f08006e;
+        public static final int acerca_de=0x7f08006d;
+        public static final int b1=0x7f080070;
+        public static final int b2=0x7f080071;
+        public static final int b3=0x7f080072;
+        public static final int b4=0x7f080073;
+        public static final int b5=0x7f080074;
+        public static final int b6=0x7f080075;
+        public static final int b7=0x7f080076;
+        public static final int b8=0x7f080077;
+        public static final int b9=0x7f080078;
+        public static final int boton_comprobar=0x7f08006a;
+        public static final int boton_configuracion=0x7f08006c;
+        public static final int boton_desafio=0x7f08006b;
+        public static final int boton_resolver=0x7f080069;
         public static final int comprobar=0x7f08005e;
         public static final int editText1=0x7f08005f;
         public static final int editText2=0x7f080061;
@@ -108,11 +118,12 @@ public final class R {
         public static final int f9c7c9=0x7f08005b;
         public static final int f9c8c9=0x7f08005c;
         public static final int f9c9c9=0x7f08005d;
-        public static final int menu_settings=0x7f08006d;
+        public static final int menu_settings=0x7f080079;
+        public static final int numeros=0x7f08006f;
         public static final int radioButton1=0x7f080063;
         public static final int radioButton2=0x7f080064;
         public static final int radioButton3=0x7f080065;
-        public static final int resolver=0x7f080067;
+        public static final int resolver=0x7f080068;
         public static final int tableLayout1=0x7f080003;
         public static final int tableRow1=0x7f080004;
         public static final int tableRow2=0x7f08000e;
@@ -128,6 +139,7 @@ public final class R {
         public static final int textView3=0x7f080002;
         public static final int textView4=0x7f080060;
         public static final int textView5=0x7f080062;
+        public static final int tiempo=0x7f080067;
         public static final int verificar=0x7f080066;
     }
     public static final class layout {
@@ -137,6 +149,7 @@ public final class R {
         public static final int activity_actividad_desafio=0x7f030003;
         public static final int activity_actividad_resolver=0x7f030004;
         public static final int activity_main=0x7f030005;
+        public static final int popup=0x7f030006;
     }
     public static final class menu {
         public static final int activity_actividad_acerca=0x7f070000;
@@ -159,8 +172,18 @@ public final class R {
         public static final int label_boton_menu_3=0x7f050006;
         public static final int label_boton_menu_4=0x7f050007;
         public static final int menu_settings=0x7f050002;
+        public static final int n1=0x7f050016;
+        public static final int n2=0x7f050017;
+        public static final int n3=0x7f050018;
+        public static final int n4=0x7f050019;
+        public static final int n5=0x7f05001a;
+        public static final int n6=0x7f05001b;
+        public static final int n7=0x7f05001c;
+        public static final int n8=0x7f05001d;
+        public static final int n9=0x7f05001e;
         public static final int pass=0x7f050012;
         public static final int resolver=0x7f05000c;
+        public static final int tiempo=0x7f050015;
         public static final int title_activity_actividad_acerca=0x7f05000f;
         public static final int title_activity_actividad_comprobar=0x7f050009;
         public static final int title_activity_actividad_configuracion=0x7f05000b;
