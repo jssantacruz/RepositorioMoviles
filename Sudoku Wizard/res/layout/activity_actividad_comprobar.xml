@@ -1084,6 +1084,7 @@
 
             <EditText
                 android:id="@+id/f9c2c7"
+                android:tag="f9c2c7"
                 android:layout_width="10dp"
                 android:layout_height="30dp"
                 android:layout_margin="1dp"

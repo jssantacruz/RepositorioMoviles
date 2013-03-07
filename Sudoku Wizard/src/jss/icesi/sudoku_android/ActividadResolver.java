@@ -1,4 +1,3 @@
-
 package jss.icesi.sudoku_android;
 
 import java.util.ArrayList;
@@ -127,16 +126,16 @@ public class ActividadResolver extends Activity {
 			TextView idC;
 			try {
 				idC = (TextView) findViewById(i);
-				
+				/*
 				if(idC == null)
 				{
 					listaCeldas.add((TextView) findViewById(2131230806));
-					Log.e("Madre!", "" + (TextView) findViewById(2131230806).getTag());
+					
 				}
 				else
 				{
 					listaCeldas.add(idC);
-				}
+				}*/
 				
 				listaCeldas.add(idC);
 				
